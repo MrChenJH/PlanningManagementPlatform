@@ -2,32 +2,41 @@
   <div >
    <table class="table table-bordered">
                         <thead> 
-                        <tr>
-                            <th>#</th>
-                            <th>姓名</th>
-                            <th>性别</th>
-                            <th>年龄</th>
-                            <th>操作</th>
+                        <tr>  
+                             <th>#</th>
+                             <th style="width:70px;align:center">序号</th>
+                            <template v-for="(item,index) in colNames">
+                                  <th :style="'width:'+item.width">{{item.title}}</th>
+                             </template> 
+                              <th>操作管理</th>
                         </tr>
                         </thead>
                         <tbody> 
-                           <template v-for="obj in  coldatas">
-                            <tr> 
-                                  <template v-for="(v,k) in obj">
-                                        <td :ref="'r'+obj.index" >{{v}}</td>
-                                        <td :ref="'rt'+obj.index" style="display:none"><el-input   :value="obj[k]"   :ref="'td'+obj.index" :tdkey="'tb'+k"/></td> 
+                           <template v-for="(obj,index) in  coldatas">
+                            <tr>  
+                                <td> <input type="checkbox" :tkey="index"/></td> 
+                                 <td  style="width:70px;text-align:center">{{index}}</td>
+                                  <template v-for="item in colNames">
+                                        <td :ref="'r'+index"  :style="'text-align:center;width:'+item.width">{{ decodeURIComponent(obj[item.name])}}</td>
+                                        <td :ref="'rt'+index" :style="'display:none;text-align:center;width:'+item.width">
+                                           <el-input size="mini"  :value="decodeURIComponent(obj[item.name])"   :ref="'td'+index" :tdkey="'tb'+item.name"/> 
+                                         
+                                  </td> 
                                  </template>
-                                 <td><el-button :ref="'editBtn'+obj.index"      @click="edit(obj.index)">编辑</el-button>
-                                     <el-button :ref="'saveBtn'+obj.index"      @click="save(obj.index)">保存</el-button> 
-                                     <el-button :ref="'cancelBtn'+obj.index"    @click="cancel(obj.index)">取消</el-button>
+                                 <td >
+                                     <el-button :ref="'editBtn'+index" size="mini"     @click="edit(index)">编辑</el-button>
+                                     <el-button :ref="'del'+index"   size="mini"       @click="edit(index)">删除</el-button>
+                                     <el-button :ref="'saveBtn'+index"    size="mini"    style="display:none"    @click="save(index)">保存</el-button> 
+                                     <el-button :ref="'cancelBtn'+index"   size="mini"    style="display:none"    @click="cancel(index)">取消</el-button>
                                  </td> 
                             </tr> 
                             </template>
                          </tbody>
                     </table>
-                      </div>
+                 </div>
   </template>
   <script>
+  import {htmlremoveAttribute,htmlSetAttribute} from '@/utils/tool'
   export default {
       data(){
           return{ 
@@ -44,104 +53,39 @@
              default:[]  
          }
         },methods:{
-          cancel(r){
-             var btns=[];
-               eval("btns=this.$refs.editBtn"+r)  
-               for (let elem of btns.values()) 
-                {   
-                 elem.$el.removeAttribute("style");
-                }
-               eval("btns=this.$refs.saveBtn"+r) 
-                for (let elem of btns.values()) 
-                { 
-                        elem.$el.style="display:none";
-                }
-              
-               eval("btns=this.$refs.cancelBtn"+r) 
-               for (let elem of btns.values()) 
-                { 
-                    elem.$el.style="display:none";
-                }
-
-             var tds=[];
-             eval("tds=this.$refs.r"+r)
-              
-             for (let elem of tds.values()) 
-                {  
-                   elem.removeAttribute("style");
-              
-                }
-
-              var tdrs=[];
-             eval("tdrs=this.$refs.rt"+r)
-                             
-             for (let elem  of  tdrs.values()) 
-                {   
-                    elem.style.display="none";
-                     
-                }
-          },
+          cancel(r){ 
+              htmlremoveAttribute.call(this,`editBtn${r}`,'style')
+              htmlremoveAttribute.call(this,`del${r}`,'style')
+              htmlSetAttribute.call(this,`saveBtn${r}`,'style','"display:none"')
+              htmlSetAttribute.call(this,`cancelBtn${r}`,'style','"display:none"')
+              htmlremoveAttribute.call(this,`r${r}`,'style')
+              htmlSetAttribute.call(this,`rt${r}`,'style','"display:none"')
+            },
           save(r){ 
-            var obj=this.coldatas.find(item=>item.index==r);
+            var obj=this.coldatas[r];
+            console.log(obj)
             var tds=[];
-            eval("tds=this.$refs.td"+r) 
+            eval(`tds=this.$refs.td${r}`) 
+            console.log(tds)
             for (let elem  of  tds.values()) 
-                {   
-                     obj[elem.tdkey]=elem.value;
-                }
-
-        const prom= new Promise((resolve, reject) => {
-            resolve(obj)
-            console.log(2);
-            this.cancel(r)
-        
-      })
-            this.$emit("rowSave",prom)
-          },
-          change(){
-                 console.log("xxx")
-                 this.$emit("alert")
+             {   
+               let input=elem.$el.children[0];
+               obj[input.tdkey]=decodeURIComponent(input.value)
+              }
+              this.$emit("rowSave",obj) 
+           },
+         selected(){
+                
          },
-         edit(r){   
-
-               var btns=[];
-               eval("btns=this.$refs.editBtn"+r)  
-               for (let elem of btns.values()) 
-                {   
-                 elem.$el.style.display="none";
-                }
-               eval("btns=this.$refs.saveBtn"+r) 
-                for (let elem of btns.values()) 
-                { 
-                  elem.$el.removeAttribute("style");
-                }
-              
-               eval("btns=this.$refs.cancelBtn"+r) 
-               for (let elem of btns.values()) 
-                { 
-                     elem.$el.removeAttribute("style");
-                }
-
-             var tds=[];
-             eval("tds=this.$refs.r"+r)
-              
-             for (let elem of tds.values()) 
-                {  
-                  
-                 elem.style.display="none";
-                }
-
-              var tdrs=[];
-             eval("tdrs=this.$refs.rt"+r)
-                             
-             for (let elem  of  tdrs.values()) 
-                {   
-                    elem.removeAttribute("style");
-                     
-                }
-        }
-
-     }
+         edit(r){  
+               htmlSetAttribute.call(this,`editBtn${r}`,'style','"display:none"') 
+               htmlSetAttribute.call(this,`del${r}`,'style','"display:none"') 
+               htmlremoveAttribute.call(this,`saveBtn${r}`,'style')
+               htmlremoveAttribute.call(this,`cancelBtn${r}`,'style')
+               htmlSetAttribute.call(this,`r${r}`,'style','"display:none"') 
+               htmlremoveAttribute.call(this,`rt${r}`,'style')
+           }
+      }
   }
   </script>
   
@@ -192,7 +136,7 @@
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     border-top: 1px solid #e7eaec;
     line-height: 1.42857;
-    padding: 8px;
+    padding: 4px;
     vertical-align: middle;
 }
 

@@ -2,9 +2,7 @@
   <el-menu class="navbar" mode="horizontal">
     <div></div>
    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger> 
-   
- 
-    <el-dropdown class="avatar-container" trigger="click">
+     <el-dropdown class="avatar-container" trigger="click">
            <div class="avatar-wrapper">
                    <div> 
                         

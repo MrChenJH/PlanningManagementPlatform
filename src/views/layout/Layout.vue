@@ -1,46 +1,39 @@
-<template>
+<template> 
 	<el-row class="container">
 		<el-col :span="24" class="header">
-			<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+			<el-col :span="10"  style="font-size: 26px;padding-left: 40px;">
 				{{collapsed?'':sysName}}
 			</el-col>
-			<el-col :span="10" >
-			    <hamburger class="hamburger-container"  :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger> 
-		
-			</el-col>
-			<el-col :span="2" class="userinfo">
-				<el-dropdown trigger="hover">
-					<span class="el-dropdown-link userinfo-inner"><img :src="sy" /> {{sysUserName}}</span>
+		    <el-col :span="14" > 
+				<span  style="float:right;margin-right:15px;padding-left:5px;">{{sysUserName}}</span> 
+				<el-dropdown trigger="hover" style="float:right;margin-right:10px">
+				    <span class="el-dropdown-link userinfo-inner"><img :src="sy"  style="width:45px;height:45px;;border-radius: 30px;margin-top:5px;"/> </span>
 					<el-dropdown-menu slot="dropdown">
-					
-						<el-dropdown-item>设置</el-dropdown-item>
+					    <el-dropdown-item>设置</el-dropdown-item>
 						<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
 			</el-col>
 		</el-col>
 		<el-col :span="24" class="main">
-			<aside :class="collapsed?'menu-collapsed':'menu-expanded'">
+			<aside style="width:200px;flex: 0 0 200px">
               <Sidebar class="sidebara"></Sidebar>
 		    </aside>
 			<section class="content-container">
 				<div class="grid-content"> 
-				
-					<el-col :span="24" >
+				     <el-col :span="24" >
 						<div> 
 							<template> 
 								<div>
 									<el-row :gutter="20">
-									  <el-col :span="23" :offset="1" class="grid-content bgpurple1">  
-									<Breadcrumb></Breadcrumb>
+									  <el-col :span="24" class="grid-content bgpurple1">  
+									   <Breadcrumb></Breadcrumb>
 									  </el-col>
 									</el-row>
 									</div>
 							</template>
-
-						</div>	
-					
-					</el-col>
+                         </div>	
+					 </el-col>
 				
 					<el-col :span="24" class="content-wrapper">
 						<transition name="fade" mode="out-in">
@@ -66,7 +59,7 @@
 				sy,
 				sysName:'科研计划管理平台',
 				collapsed:false,
-				sysUserName: '',
+				sysUserName: 'admin',
 				sysUserAvatar: '',
 				form: {
 					name: '',
@@ -123,7 +116,7 @@
              },
 			 
 			 mounted() {
-			     this.sysUserName=this.name
+			    //  this.sysUserName=this.name
 
 		}
 	}
@@ -136,7 +129,7 @@
     @import "src/styles/mixin.scss";
 	
   .bgpurple1 {
-    background: #d3dce6;
+    background: rgba(245, 245, 245, 1);
   }
 
 	.hamburger-container{

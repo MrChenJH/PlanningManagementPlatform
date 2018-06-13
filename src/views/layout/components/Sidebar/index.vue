@@ -2,7 +2,7 @@
   <el-scrollbar wrapClass="scrollbar-wrapper">
     <el-menu style=""
       mode="vertical"
-      :show-timeout="200"
+    
       :default-active="$route.path"
       :collapse="isCollapse"
       background-color="#304156"
@@ -36,6 +36,10 @@ export default {
 
 <style>
 .el-menu-item{
-       font-size: 20px;
+       font-size: 18px;
      }
+.el-scrollbar__wrap {
+    overflow: hidden; 
+    height: 100%;
+}
 </style>

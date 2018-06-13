@@ -33,7 +33,7 @@ export const constantRouterMap = [
     hidden: true,
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      component: () => import('@/views/home/index')
     }]
   },
   
@@ -43,9 +43,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: '首页', icon: 'form' }
+        name: 'home',
+        component: () => import('@/views/home/index'),
+        meta: { title: '首页' }
       }
     ]
   }, 
@@ -57,7 +57,31 @@ export const constantRouterMap = [
         path: 'Right',
         name: 'Right',
         component: () => import('@/views/Right/userRole'),
-        meta: { title: '用户权限', icon: 'form' }
+        meta: { title: '用户权限' }
+      }
+    ]
+  }, 
+  {
+    path: '/flow',
+    component: Layout,
+    children: [
+      {
+        path: 'mg',
+        name: 'mg',
+        component: () => import('@/views/flow/mg'),
+        meta: { title: '流程管理' }
+      }
+    ]
+  }, 
+  {
+    path: '/Log',
+    component: Layout,
+    children: [
+      {
+        path: 'mg',
+        name: 'mg',
+        component: () => import('@/views/Log/mg'),
+        meta: { title: '日志管理' }
       }
     ]
   },

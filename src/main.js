@@ -14,9 +14,12 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-
+import {Select, Option, OptionGroup} from 'iview';
+import 'iview/dist/styles/iview.css';
 Vue.use(ElementUI, { locale })
-
+Vue.component('Select', Select);
+Vue.component('Option', Option);
+Vue.component('OptionGroup', OptionGroup);
 Vue.config.productionTip = false
 
 new Vue({

@@ -1,85 +1,92 @@
 <template>
-  <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai"></el-option>
-          <el-option label="Zone two" value="beijing"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker type="date" placeholder="Pick a date" v-model="form.date1" style="width: 100%;"></el-date-picker>
-        </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-time-picker type="fixed-time" placeholder="Pick a time" v-model="form.date2" style="width: 100%;"></el-time-picker>
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery"></el-switch>
-      </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type"></el-checkbox>
-          <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-          <el-checkbox label="Offline activities" name="type"></el-checkbox>
-          <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor"></el-radio>
-          <el-radio label="Venue"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input type="textarea" v-model="form.desc"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+<DIV>
+   
+</DIV>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      }
-    }
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
-    }
-  }
+  
 }
 </script>
 
-<style scoped>
-.line{
-  text-align: center;
-}
-</style>
+
+// import img from '@/assets/u44.png'
+// import {d} from '@/utils/tool'
+
+// export default {
+//   data() {
+//     return {
+//       rows:[0,1,2,3],
+//      img:img,
+//      months:["January","February","March","April","May","June","July","August","September","October","November","December"],
+//      month:d().m,
+//      week:d().w,
+//      x:0,
+//      y:0,
+//      l:0,
+//      t:0,
+//      isDown: false
+//     }
+//   },
+//   render(h) {
+
+// return (
+     
+//       }
+//       }
+//     )
+//   },
+//   methods: {
+//     onSubmit() {
+//       this.$message('submit!')
+//     },
+//     onCancel() {
+//       this.$message({
+//         message: 'cancel!',
+//         type: 'warning'
+//       })
+//     },over(e){
+      
+//       console.log(e);
+//     },
+//     down(e){
+//      this.$refs.div1.style.position='absolute'
+//     //获取x坐标和y坐标
+//     this.x = e.clientX;
+//     this.y = e.clientY;
+//     let div= this.$refs.div1;
+//     //获取左部和顶部的偏移量
+//     this.l = div.offsetLeft;
+//     this.t = div.offsetTop;
+//     //开关打开
+//     this.isDown = true;
+//     //设置样式 
+   
+//      div.style.cursor = 'move';
+
+//     },move(e){
+    
+//     if (this.isDown == false) {
+//         return;
+//     }
+//     //获取x和y
+//     var nx = e.clientX;
+//     var ny = e.clientY;
+//     //计算移动后的左偏移量和顶部的偏移量
+//     var nl = nx - (this.x - this.l);
+//     var nt = ny - (this.y - this.t);
+
+//       this.$refs.div1.style.left = nl + 'px';
+//       this.$refs.div1.style.top = nt + 'px';
+
+//     },mouseup () {
+//     //开关关闭
+//      this.isDown = false;
+//      this.$refs.div1.style.cursor = 'default';
+// }
+//   }
+// }
+
+
 
