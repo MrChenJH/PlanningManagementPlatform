@@ -15,13 +15,11 @@
      <el-table :data="showData"  border fit highlight-current-row style="width: 100%" @select="select" @select-all="select">
          <el-table-column align="center"
              type="selection"
-             width="55" 
-            >
-             </el-table-column> 
+             width="55">
+            
+         </el-table-column> 
 
-    <el-table-column align="center" label="序号" 
-    
-      width="50">
+    <el-table-column align="center" label="序号"  width="50">
           <template slot-scope="scope"> 
             <span>{{scope.row.id}}</span>
         </template>
@@ -86,14 +84,9 @@
           </template>
         </template>
       </el-table-column>
-
     </el-table>
     </el-col>
 </el-row> 
-
-
-
-
 <el-row :gutter="20">
   <el-col :span="5" :push="13"> 
     <el-pagination
@@ -108,11 +101,34 @@
     </el-col>
 </el-row>
 
-<el-dialog title="权限管理" :visible.sync="dialogFormVisible" >
-    
 
+  <el-dialog
+      width="30%"
+      title="提示"
+      :visible.sync="innerVisible1"
+      > 
+         <el-row> 
+           <el-col :span="24" style="color: red;padding-right: 5px;">
+            {{alertcontent}}
+           </el-col>
+           </el-row> 
+    </el-dialog>
+<el-dialog title="权限管理" :visible.sync="dialogFormVisible" >
+     
+     <el-dialog
+      width="30%"
+      title="提示"
+      :visible.sync="innerVisible"
+      custom-class=""
+      append-to-body> 
+         <el-row> 
+           <el-col :span="24" style="color: red;padding-right: 5px;">
+            {{alertcontent}}
+           </el-col>
+           </el-row> 
+    </el-dialog>
   <el-row> 
-    <el-col :span="2" :offset="1" style="text-align: right;    padding-right: 5px;"><span class="textSpan" > 姓名:</span></el-col> 
+    <el-col :span="2" :offset="1" style="text-align: right;    padding-right: 7px;"><span class="textSpan" > 姓名:</span></el-col> 
     <el-col :span="8"><el-input type="text" v-model="obj.name"/></el-col> 
     <el-col :span="3"  style="text-align: right;    padding-right: 5px;"><span class="textSpan"> 登录名:</span></el-col> 
     <el-col :span="8"><el-input  v-model="obj.userName"/></el-col>
@@ -125,8 +141,6 @@
  </el-row>
 <el-row :gutter="5">  
     <el-col :span="3" >负责处室:</el-col>  
-       
-
        <el-col :span="5" >
         <el-checkbox v-model="cs.bgs"  >办公室</el-checkbox>
             </el-col>
@@ -218,12 +232,12 @@
  export default {
     methods: {
       exprot(){ 
-        let data=this.tableData1;
+        let data=this.tableData;
         data.unshift( {id:"序号",name:"姓名",userName:'登录名' ,pwd:"密码",officeName:"归口办公室",creatorName:'创建人',creatorTime:"创建时间",edit:false},);
         exportToCsv("用户权限.csv",data)
       },
       search(){
-        let data= this.tableData1.filter(r=>r.userName.includes(this.sUserName))
+         let data= this.tableData.filter(r=>r.userName.includes(this.sUserName))
          this.showData=[];
          data.forEach((x,i) => 
            {  
@@ -245,65 +259,132 @@
          for(let item of this.selectRows.values()){
 
               console.log(item)
-              let i=this.tableData1.findIndex(r=>r.id==item.id) 
-               this.tableData1.splice(i,1);
+              let i=this.tableData.findIndex(r=>r.id==item.id) 
+               this.tableData.splice(i,1);
         }
+        this.search()
       },
       remove(row)
-      {
-        let i= this.tableData1.findIndex(r=>r.id==row.id)
-        this.tableData1.splice(i,1);
+      { 
+
+        console.log(row.id)
+        let i= this.tableData.findIndex(r=>r.id==row.id)
+        console.log(i);
+        this.tableData.splice(i,1);
+        this.search()
+      },
+      cancelEdit(row){
+      row.edit=false
+      this.search()
+
       },
       update(row){
-          this.$message({
-           message: '修改成功',
-           type: 'success'
-          })
+
+            if(!row.name&&!this.innerVisible1){
+                this.alertcontent="姓名不能为空"; 
+                this.innerVisible1=true
+            } 
+            
+           if(!row.userName&&!this.innerVisible1){
+                this.alertcontent="登录名不能为空";
+                this.innerVisible1=true
+            }
+            
+            if(!row.pwd&&!this.innerVisible1){
+                this.alertcontent="密码不能为空"; 
+                this.innerVisible1=true
+            }
+            
+           let l=(this.tableData.filter(p=>p.userName==row.userName&&p.id!=row.id).length>0)
+           
+           if(l&&!this.innerVisible1){
+                this.alertcontent="用户名已经存在";
+                this.innerVisible1=true
+            }
+
+       
+           if(row.officeName.length==0&&!this.innerVisible1){
+                this.alertcontent="请选择处室";
+                this.innerVisible1=true
+            }  
+            
+            if( !this.innerVisible1)
+            {
            this.dialogFormVisible=false;
            row.edit = false
+           }
       },
-      cancelEdit(row) { 
-      console.log( row.edit);
-      row.title = row.originalTitle
-      row.edit = false
-        this.$message({
-        message: '修改成功',
-        type: 'success'
-      })
-    },
-    confirmEdit(row) {
-      console.log(row);
-      row.edit = false
-      row.originalTitle = row.title
-    
-    },
-     Save(){
-         let css=[];
-            for (let [k, v] of Object.entries(this.cs)) {
-             if(v){
+
+     Save(){  
+           if(!this.obj.name&&!this.innerVisible){
+                this.alertcontent="姓名不能为空"; 
+                this.innerVisible=true
+            } 
+            
+           if(!this.obj.userName&&!this.innerVisible){
+                this.alertcontent="登录名不能为空";
+                this.innerVisible=true
+            }
+            
+            if(!this.obj.password&&!this.innerVisible){
+                this.alertcontent="密码不能为空"; 
+                this.innerVisible=true
+            }
+            
+           if(this.obj.password!=this.obj.repassword&&!this.innerVisible){
+                this.alertcontent="密码和确认密码不一致"; 
+                this.innerVisible=true
+            }
+              
+            
+            let l=(this.tableData.filter(p=>p.userName==this.obj.userName).length>0)
+           
+           if(l&&!this.innerVisible){
+                this.alertcontent="用户名已经存在";
+                this.innerVisible=true
+            }
+
+            let ck=false;
+            Object.values(this.cs).forEach((x,y)=>{
+             if(x){
+                 ck=true
+               }
+            });
+       
+           if(!ck&&!this.innerVisible){
+                this.alertcontent="请选择处室";
+                this.innerVisible=true
+            }  
+            
+            if(!this.innerVisible){
+             let css=[];
+             for (let [k, v] of Object.entries(this.cs)) {
+               if(v){
                  css.push(this.cs1[k])
                  }
              }
-            let  id= this.tableData1.length+1; 
-            this.tableData1.push({id,name:this.obj.name,userName:this.obj.userName,officeName:css,password:this.obj.password,creatorName:"admin",creatorTime: new Date().format("yyyy-MM-dd hh:mm:ss"),edit:false})
-            alert('成功!'); 
-            this.dialogFormVisible=false;
+             console.log(this.tableData)
+             let id= this.tableData.length+1; 
+             this.tableData.unshift({id,name:this.obj.name,userName:this.obj.userName,officeName:css,pwd:this.obj.password,creatorName:"admin",creatorTime: new Date().format("yyyy-MM-dd hh:mm:ss"),edit:false})
+            
+             Object.keys(this.obj).forEach((x,i)=>{
+                  this.obj[x]=''
+             });
+
+             Object.keys(this.cs).forEach((x,i)=>{
+                  this.cs[x]=false
+             });
+             this.search()
+            this.dialogFormVisible=false; 
+            }
       },
       handleSizeChange(val) {  
            this.pageSize1=val;
-          
-         
-      },
+           this.search();
+       },
       handleCurrentChange(val) {
            this.currentPage=val;
-           this.showData=[];
-           this.tableData1.forEach((x,i) => 
-           {
-                if(i>=(this.currentPage-1)*this.pageSize1&&i<this.currentPage*this.pageSize1)
-                {
-                                this.showData.push(x); 
-                }
-           });
+           this.search();
       }
     },
     components: {
@@ -313,9 +394,9 @@
 
   },
   mounted(){  
-           this.total=this.tableData1.length
+           this.total=this.tableData.length
            this.showData=[];
-           this.tableData1.forEach((x,i) => 
+           this.tableData.forEach((x,i) => 
            {     
              console.log(x)
              console.log(i)
@@ -325,10 +406,12 @@
                 }
            });
 
-           console.log( this.showData)
+           console.log(this.showData)
      },
     data() {
       return {
+        innerVisible1:false,
+        alertcontent:'',
         sUserName:'',
         total:400,
         pageSize1:5,
@@ -381,35 +464,11 @@
            {name:"社会发展处"},
            {name:"创新服务处"}
          ],
-        rules:{
-        userName: [
-            { required: true, message: '请选择用户名', trigger: 'change' },
-           
-          ],
-        officeName: [
-            { required: true, message: '请选择处室', trigger: 'change' }
-          ]
-        },
-        options1:[
-          {"name":"admin"},
-          {"name":"admin1"}, 
-          {"name":"admin2"},
-        ],
-         options2:[
-          {"name":"处室1"},
-          {"name":"处室2"}, 
-          {"name":"处室3"},
-         ]
-        ,
-         listLoading: true,
-         listQuery: {
-           page: 1,
-         limit: 10
-         },
-        users:[],
-        office:[],
+        listLoading: true,
+        innerVisible:false,
         obj:{
            name:'',
+           userName:'',
            password:'',
            repassword:'',
            officeName:[]
@@ -417,7 +476,7 @@
         currentPage: 1,
         dialogFormVisible:false,
         showData:[],
-        tableData1:[
+        tableData:[
           {id:1,name:"name1",userName:'Admin' ,pwd:"123456",officeName:['办公室'],creatorName:'Admin',creatorTime:'2018-03-01 19:11:10',edit:false},
           {id:2,name:"name2",userName:'Admin1',pwd:"123456",officeName:['办公室'],creatorName:'Admin',creatorTime:'2018-03-01 19:11:10',edit:false},
           {id:3,name:"name3",userName:'Admin2',pwd:"123456",officeName:['办公室'],creatorName:'Admin',creatorTime:'2018-03-01 19:11:10',edit:false},
@@ -448,63 +507,7 @@
           {id:26,name:"name2",userName:'Admin1',pwd:"123456",officeName:['办公室'],creatorName:'Admin',creatorTime:'2018-03-01 19:11:10',edit:false},
           {id:27,name:"name3",userName:'Admin2',pwd:"123456",officeName:['办公室'],creatorName:'Admin',creatorTime:'2018-03-01 19:11:10',edit:false},
           {id:28,name:"name4",userName:'Admin3',pwd:"123456",officeName:['办公室'],creatorName:'Admin',creatorTime:'2018-03-01 19:11:10',edit:false},
-        
-        
-           ],
-        colNames:[
-           {
-            title:"用户名",
-            width:"150px",
-            name:'userName'
-           }, 
-           {
-            title:"处室",
-            width:"300px",
-            name:'officeName'
-           },
-           {
-            title:"创建人",
-            width:"100px",
-            name:'creatorName'
-           },
-           {
-            title:"创建时间",
-            width:"100px",
-            name:'creatorTime'
-           }
-          ],
-        currentPage2: 5,
-        currentPage3: 5,
-        currentPage4: 4,
-        tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
+          ]
       }
     }
   }

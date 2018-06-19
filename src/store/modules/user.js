@@ -7,6 +7,7 @@ const user = {
     name: '',
     avatar: '',
     roles: []
+ 
   },
 
   mutations: {
@@ -21,6 +22,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    Add_Data:(state,data)=>{
+
     }
   },
 

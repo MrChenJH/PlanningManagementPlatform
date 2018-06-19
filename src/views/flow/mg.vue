@@ -96,8 +96,32 @@
     </el-col>
 </el-row>
 
+
+  <el-dialog
+      width="30%"
+      title="提示"
+      :visible.sync="innerVisible1"
+      > 
+         <el-row> 
+           <el-col :span="24" style="color: red;padding-right: 5px;">
+            {{alertcontent}}
+           </el-col>
+           </el-row> 
+    </el-dialog>
+
 <el-dialog title="流程管理" :visible.sync="dialogFormVisible" >
-    
+    <el-dialog
+      width="30%"
+      title="提示"
+      :visible.sync="innerVisible"
+      custom-class=""
+      append-to-body> 
+         <el-row> 
+           <el-col :span="24" style="color: red;padding-right: 5px;">
+            {{alertcontent}}
+           </el-col>
+           </el-row> 
+    </el-dialog>
 
   <el-row> 
     <el-col :span="3"  style="text-align: right;    padding-right: 5px;"><span class="textSpan" > 流程节点:</span></el-col> 
@@ -194,21 +218,13 @@ Date.prototype.format = function(fmt) {
           })
       },
       update(row){
-          this.$message({
-           message: '修改成功',
-           type: 'success'
-          })
-           this.dialogFormVisible=false;
+    
            row.edit = false
       },
       cancelEdit(row) { 
-      console.log( row.edit);
-      row.title = row.originalTitle
+ 
       row.edit = false
-        this.$message({
-        message: '修改成功',
-        type: 'success'
-      })
+     
     },
     confirmEdit(row) {
       console.log(row);
@@ -217,7 +233,22 @@ Date.prototype.format = function(fmt) {
     
     },
      Save(){
+             
+           if(!this.obj.node&&!this.innerVisible){
+                this.alertcontent="节点不能为空"; 
+                this.innerVisible=true
+            } 
             
+           if(!this.obj.nodeName&&!this.innerVisible){
+                this.alertcontent="节点名称不能围攻";
+                this.innerVisible=true
+            }
+            
+            if(!this.obj.workDay&&!this.innerVisible){
+                this.alertcontent="工作日不能为空"; 
+                this.innerVisible=true
+            }
+            if(!this.innerVisible){
             let  id= this.tableData.length+1; 
             this.tableData.unshift({id,node:this.obj.node,nodeName:this.obj.nodeName,creator:"admin",creatorTime: new Date().format("yyyy-MM-dd hh:mm:ss"),edit:false})
                   this.dialogFormVisible=false;
@@ -226,7 +257,7 @@ Date.prototype.format = function(fmt) {
               type: 'success'
                })
                this.search()
-      
+      }
       },
       handleSizeChange(val) {  
            this.pageSize1=val;
@@ -285,6 +316,8 @@ Date.prototype.format = function(fmt) {
            workDay:''
           },
         currentPage: 1,
+        alertcontent:"",
+        innerVisible:false,
         dialogFormVisible:false,
         showData:[],
         tableData:[

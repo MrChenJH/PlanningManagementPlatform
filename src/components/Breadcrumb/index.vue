@@ -11,14 +11,14 @@
 </template>
 
 <script>
-import u40 from '@/assets/u44.png'
+
 export default {
   created() {
     this.getBreadcrumb()
   },
   data() {
     return {
-      	    imu:u40,
+    
       levelList: null
     }
   },

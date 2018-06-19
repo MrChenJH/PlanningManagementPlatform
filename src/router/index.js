@@ -36,7 +36,6 @@ export const constantRouterMap = [
       component: () => import('@/views/home/index')
     }]
   },
-  
   {
     path: '/form',
     component: Layout,
@@ -46,6 +45,17 @@ export const constantRouterMap = [
         name: 'home',
         component: () => import('@/views/home/index'),
         meta: { title: '首页' }
+      }
+    ]
+  },{
+    path: '/plan',
+    component: Layout,
+    children: [
+      {
+        path: 'schedule',
+        name: 'schedule',
+        component: () => import('@/views/Plan/schedule'),
+        meta: { title: '计划进度' }
       }
     ]
   }, 
@@ -78,8 +88,8 @@ export const constantRouterMap = [
     component: Layout,
     children: [
       {
-        path: 'mg',
-        name: 'mg',
+        path: 'lmg',
+        name: 'lmg',
         component: () => import('@/views/Log/mg'),
         meta: { title: '日志管理' }
       }

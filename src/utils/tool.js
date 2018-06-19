@@ -1,4 +1,4 @@
-
+'use strict'
 export function htmlremoveAttribute(elemRef,attrName){
     let doms=[] 
     console.log(`doms=this.$refs.${elemRef}`);
@@ -85,24 +85,30 @@ export function exportToCsv(filename, rows) {
     }
 }
 
-Date.prototype.format = function(fmt) { 
-    var o = { 
-       "M+" : this.getMonth()+1,                 //月份 
-       "d+" : this.getDate(),                    //日 
-       "h+" : this.getHours(),                   //小时 
-       "m+" : this.getMinutes(),                 //分 
-       "s+" : this.getSeconds(),                 //秒 
-       "q+" : Math.floor((this.getMonth()+3)/3), //季度 
-       "S"  : this.getMilliseconds()             //毫秒 
-   }; 
-   if(/(y+)/.test(fmt)) {
-           fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-   }
-    for(var k in o) {
-       if(new RegExp("("+ k +")").test(fmt)){
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-        }
+
+
+export  function addWorkDay(date,days){ 
+    let year=new Date().format("yyyy")
+    console.log(year)
+    let d=`${year}-${date}` 
+try
+  {   
+    var t=  new Date(d.replace(/-/g,"/"))
+    t.setDate(t.getDate() + days)
+    if(t.getDay()==0){
+        t.setDate(t.getDate() + 1)
     }
-   return fmt; 
+    if(t.getDay()==6){
+       t.setDate(t.getDate() + 2)
+    }
+    return {d:t.format("MM-dd"),sucess:true,err:""}
+  }
+catch(err)
+  {  
+      console.log(err)
+    return {d:"",sucess:false,err:"日期格式不对，请参照 9-1 这种格式"}
+  }
+
 }
+
 
