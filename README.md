@@ -5,6 +5,9 @@
 下载后
       npm install 
       npm run start
+   1)先点一下用户权限和流程管理,首页和计划进度才有数据,首页和计划计划进度都是动态数据来源都是用户权限和流程管理
+   2）当然在用户权限和流程管理也可以新增数据和删除数据,这里数据缓存采用的localstore
+   3）不多说看你代码你就知道
 Copyright (c) 2018-present ChenJinHua
 
 
