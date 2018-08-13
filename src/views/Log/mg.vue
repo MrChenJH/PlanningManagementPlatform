@@ -1,10 +1,10 @@
 <template>
   <div> 
 
-<el-row :gutter="20">
-  <el-col :span="7" >  
+<el-row :gutter="10">
+  <el-col :span="8" style="padding:0px">  
      <el-date-picker
- 
+    style="width:100%"
       v-model="dateS"
       type="daterange"
       
@@ -14,11 +14,11 @@
 >
     </el-date-picker>
 </el-col>
-   <el-col :span="1" ><el-button type="primary" @click="search">查询</el-button></el-col>
-   <el-col :span="2" style="padding-left: 40px;" ><el-button type="primary" @click="exprot"> 导出</el-button></el-col>
+   <el-col :span="10"  style="padding-left: 10px;"><el-button type="primary" @click="search">查询</el-button><el-button type="primary" @click="exprot"> 导出</el-button></el-col>
+
 </el-row>
 <el-row  :gutter="20">
-    <el-col :span="23" > 
+    <el-col :span="24" > 
      <el-table :data="showData"  border fit highlight-current-row style="width: 100%" @select="select" @select-all="select">
          <el-table-column align="center"
              type="selection"
@@ -61,12 +61,12 @@
     </el-col>
 </el-row> 
 <el-row :gutter="20">
-  <el-col :span="5" :push="13"> 
+   <el-col :span="14" :offset="10" style="text-align:right"> 
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-sizes="[5,10, 20, 30, 40]"
+        :page-sizes="[10,15, 20, 25, 30]"
       :page-size="pageSize1"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
@@ -264,7 +264,7 @@
    
         dateS: '',
         total:400,
-        pageSize1:5,
+        pageSize1:10,
         selectRows:[],
         listLoading: true,
          listQuery: {

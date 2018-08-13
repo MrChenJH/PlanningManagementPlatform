@@ -31,12 +31,12 @@ export function htmlSetAttribute(elemRef,attrName,attrVal){
      }
 }
 
-export  function d(){
-    let month=["January","February","March","April","May","June","July","August","September","October","November","December"]; 
+export  function FullTime(){
+    let month=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]; 
     let m= (new Date()).getMonth()
     let week=['日','一','二','三','四','五','六'] 
     let w='星期'+ week[(new Date()).getDay()]
-    return {m:month[m],w:w};
+    return {y:(new Date()).getFullYear(),m:month[m],w:w,d:(new Date()).getDate(),time:(new Date()).format("hh:mm:ss")};
 }
 
 
@@ -106,9 +106,139 @@ try
 catch(err)
   {  
       console.log(err)
-    return {d:"",sucess:false,err:"日期格式不对，请参照 9-1 这种格式"}
+       return {d:"",sucess:false,err:"日期格式不对，请参照 9-1 这种格式"}
   }
 
 }
 
+const flowKey="flow"
+export function  SetFlowData(data){
+ localStorage.setItem(flowKey,JSON.stringify(data))
+} 
+
+export function  GetFlowData(){
+  return  JSON.parse(localStorage.getItem(flowKey))
+} 
+
+export function  removeFlowData(){
+    localStorage.removeItem(flowKey)
+}
+
+
+const schedulerKey="scheduler" 
+
+export function  SetSchedulerData(data){
+    localStorage.setItem(schedulerKey,JSON.stringify(data))
+}  
+
+export function  GetSchedulerData(){
+    return JSON.parse(localStorage.getItem(schedulerKey))
+}  
+
+export function  removeSchedulerData(){
+    localStorage.removeItem(SchedulerData)
+}
+
+
+export function ruleRender(){
+    let arr=[],cArr=[] 
+    for(let i=0;i<this.DynamicCols.length;i++)
+    {   
+       cArr.push(i)
+      if((i+1)%4==0)
+      {
+   
+       arr.push(cArr) 
+       cArr=[]
+      } 
+    }
+    if(cArr.length!=0){
+      arr.push(cArr)
+    }
+    
+    cArr=[]
+    let newArr=[]
+    console.log(arr)
+    for(let i=0;i<4;i++){
+     arr.forEach((v,j)=>{
+       if(v[i]==0||v[i]){
+         cArr.push(v[i])
+         }
+     })
+    
+     newArr.push(cArr)
+     cArr=[]
+     }
+
+     return newArr
+    }
+   export function   OrderBy(source, orders, type) {
+
+        if (source instanceof Array && orders instanceof Array && orders.length > 0) {
+
+          var ordersc = orders.concat([]);
+          var sorttype = type || 'asc';
+          var results = [];
+          var totalSum = {};
+
+          function grouporder(source, orders, totalSum) {
+
+            source.sort(function(a, b) {
+              var convertA = a[orders[0]];
+              var convertB = b[orders[0]];
+              if (typeof convertA == 'string' && typeof convertB == 'string') {
+                if (sorttype.toUpperCase() == 'ASC') {
+                  return convertA.localeCompare(convertB);
+                } else {
+                  return convertB.localeCompare(convertA);
+                }
+              } else {
+                if (sorttype.toUpperCase() == 'ASC') {
+                  return convertA - convertB;
+                } else {
+                  return convertB - convertA;
+                }
+              }
+
+            })
+
+            var groupmap = new Map();
+            source.forEach((item) => {
+              if (groupmap.has(item[orders[0]])) {
+                groupmap.get(item[orders[0]]).push(item);
+              } else {
+                groupmap.set(item[orders[0]], []);
+                groupmap.get(item[orders[0]]).push(item);
+              }
+            })
+
+
+
+            orders.shift();
+
+            for (let [key, val] of groupmap) {
+
+              totalSum[key] = {};
+              totalSum[key].name = key;
+              totalSum[key].value = val.length;
+              if (orders.length == 0) {
+                results = results.concat(val);
+              } else {
+                totalSum[key].children = {};
+                var orderscopy = orders.concat([]);
+                grouporder(val, orderscopy, totalSum[key].children);
+              }
+            }
+          }
+
+          grouporder(source, ordersc, totalSum);
+
+          return {
+            results: results,
+            totalSum: totalSum
+          };
+        } else {
+          return source;
+        }
+      }
 

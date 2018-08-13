@@ -48,8 +48,11 @@ export default {
     line-height: 35px;
     margin-left: 10px;
     .no-redirect {
-      color: #97a8be;
-      cursor: text;
+    
+          font-family: '微软雅黑';
+    font-weight: 400;
+    font-style: normal;
+    color: #666666;
     }
   }
 </style>

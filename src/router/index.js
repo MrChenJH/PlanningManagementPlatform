@@ -28,16 +28,14 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/home/index',
     name: '首页',
     hidden: true,
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/home/index')
-    }]
+    meta: { title: ' 首页' }
+   
   },
   {
-    path: '/form',
+    path: '/home',
     component: Layout,
     children: [
       {
@@ -102,6 +100,7 @@ export const constantRouterMap = [
 export default new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
+  routes: constantRouterMap,
+  mode:'history'
 })
 

@@ -5,13 +5,13 @@
    <el-col :span="1" style="padding-left: 20px;"><el-button  size="small" @click="removeAll"  type="danger">删除</el-button></el-col>
 </el-row>
 <el-row :gutter="20">
-  <el-col :span="5" >  
+<el-col :span="5" style="padding-left: 10px;padding-right:0px">  
    <el-input   v-model="sUserName" placeholder="请输入登录名"></el-input></el-col>
    <el-col :span="1" ><el-button type="primary" @click="search">查询</el-button></el-col>
    <el-col :span="2" style="padding-left: 40px;" ><el-button type="primary" @click="exprot"> 导出</el-button></el-col>
 </el-row>
 <el-row  :gutter="20">
-    <el-col :span="23" > 
+    <el-col :span="24" > 
      <el-table :data="showData"  border fit highlight-current-row style="width: 100%" @select="select" @select-all="select">
          <el-table-column align="center"
              type="selection"
@@ -88,17 +88,18 @@
     </el-col>
 </el-row> 
 <el-row :gutter="20">
-  <el-col :span="5" :push="13"> 
+  <el-col :span="14" :offset="10" style="text-align:right"> 
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-sizes="[5,10, 20, 30, 40]"
+     :page-sizes="[10,15, 20, 25, 30]"
       :page-size="pageSize1"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
     </el-col>
+     
 </el-row>
 
 
@@ -127,73 +128,47 @@
            </el-col>
            </el-row> 
     </el-dialog>
+    <el-form :model="obj" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+ 
   <el-row> 
-    <el-col :span="2" :offset="1" style="text-align: right;    padding-right: 7px;"><span class="textSpan" > 姓名:</span></el-col> 
-    <el-col :span="8"><el-input type="text" v-model="obj.name"/></el-col> 
-    <el-col :span="3"  style="text-align: right;    padding-right: 5px;"><span class="textSpan"> 登录名:</span></el-col> 
-    <el-col :span="8"><el-input  v-model="obj.userName"/></el-col>
+     <el-col :span="11" >
+        <el-form-item label="姓名:" prop="name">
+           <el-input type="text" v-model="obj.name"/>
+        </el-form-item>
+     </el-col>
+    
+       <el-col :span="11" >
+        <el-form-item label="登录名:" prop="userName">
+               <el-input  v-model="obj.userName"/>
+        </el-form-item>
+     </el-col>
+    
   </el-row> 
   <el-row > 
-   <el-col :span="2" :offset="1"   style="text-align: right;    padding-right: 5px;"><span     class="textSpan">密码:</span></el-col> 
-   <el-col :span="8">   <el-input  type="password" v-model="obj.password"/></el-col> 
-   <el-col :span="3"    style="text-align: right;    padding-right: 5px;"><span    class="textSpan">确认密码:</span></el-col> 
-   <el-col :span="8">  <el-input type="password"  v-model="obj.repassword"/></el-col>
- </el-row>
+
+      <el-col :span="11" >
+        <el-form-item label="密码:" prop="password">
+           <el-input  type="password" v-model="obj.password"/>
+        </el-form-item>
+     </el-col>
+    
+       <el-col :span="11" >
+        <el-form-item label="确认密码:" prop="repassword">
+           <el-input type="password"  v-model="obj.repassword"/>
+        </el-form-item>
+     </el-col>
+   </el-row>
 <el-row :gutter="5">  
-    <el-col :span="3" >负责处室:</el-col>  
-       <el-col :span="5" >
-        <el-checkbox v-model="cs.bgs"  >办公室</el-checkbox>
-            </el-col>
-               <el-col :span="5" >
-        <el-checkbox v-model="cs.rsjy" >人事教育处</el-checkbox> 
-        </el-col>
-            <el-col :span="5" >
-             <el-checkbox v-model="cs.fzyjc" >发展研究处</el-checkbox>
-             </el-col>
-             <el-col :span="5" >
-             <el-checkbox v-model="cs.tzggyfgc" >体制改革与法规处</el-checkbox>   
-             </el-col>
-
-      </el-row > 
-      <el-row :gutter="5">   
-
-        <el-col :span="5" :offset="3" >
-        <el-checkbox v-model="cs.fzjhc" >发展计划处</el-checkbox>
-        </el-col> 
-        <el-col :span="5" >
-        <el-checkbox v-model="cs.tjcwc" >条件财务处</el-checkbox>  
-        </el-col> 
-        <el-col :span="5" >
-          <el-checkbox v-model="cs.gjhzc" >国际合作处</el-checkbox>
-        </el-col> 
-        <el-col :span="5" >
-                <el-checkbox v-model="cs.yfjdjsyglc" >研发基地建设与管理处</el-checkbox> 
-         </el-col> 
-       </el-row>
-        <el-row :gutter="5">   
-             <el-col :span="5"   :offset="3" >
-        <el-checkbox v-model="cs.kpgzc" >科普工作处</el-checkbox> 
-            </el-col> 
-                  <el-col :span="5" >
-        <el-checkbox v-model="cs.jcyjc" >基础研究处</el-checkbox> 
-             </el-col> 
-                  <el-col :span="5" >
-         <el-checkbox v-model="cs.swyyc" >生物医药处</el-checkbox>
-            </el-col> 
-          <el-col :span="5" >
-                <el-checkbox v-model="cs.gxjscyc" >高新技术产业化处</el-checkbox>
- 
-            </el-col> 
-
-      </el-row> 
-             <el-row :gutter="5">   
-             <el-col :span="5"   :offset="3" >
-        <el-checkbox v-model="cs.shfzc" >社会发展处</el-checkbox>
-            </el-col>
-                     <el-col :span="5" >
-        <el-checkbox v-model="cs.cxfwc" >创新服务处</el-checkbox> 
-             </el-col>
-       </el-row> 
+     <el-col :span="22" >
+        <el-form-item label="负责处室:" prop="officeName">
+          <el-checkbox-group  v-model="obj.officeName">
+            <el-checkbox v-for="city in  cs2" :label="city.name" :key="city.name">{{city.name}}</el-checkbox>
+           </el-checkbox-group>
+         </el-form-item>
+     </el-col>
+     </el-row >  
+    </el-form>
+  
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
     <el-button type="primary" @click="Save">确 定</el-button>
@@ -209,26 +184,7 @@
  import  {office,addRole,RoleS}  from '@/api/role'
  import  {Users} from '@/api/user'
  import {exportToCsv} from '@/utils/tool'
- Date.prototype.format = function(fmt) { 
-     var o = { 
-        "M+" : this.getMonth()+1,                 //月份 
-        "d+" : this.getDate(),                    //日 
-        "h+" : this.getHours(),                   //小时 
-        "m+" : this.getMinutes(),                 //分 
-        "s+" : this.getSeconds(),                 //秒 
-        "q+" : Math.floor((this.getMonth()+3)/3), //季度 
-        "S"  : this.getMilliseconds()             //毫秒 
-    }; 
-    if(/(y+)/.test(fmt)) {
-            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
-    }
-     for(var k in o) {
-        if(new RegExp("("+ k +")").test(fmt)){
-             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-         }
-     }
-    return fmt; 
-}
+
  export default {
     methods: {
       exprot(){ 
@@ -243,35 +199,71 @@
            {  
                 if(i>=(this.currentPage-1)*this.pageSize1&&i<this.currentPage*this.pageSize1)
                 {
-                                this.showData.push(x); 
+                  this.showData.push(x); 
                 }
            });
            this.total=data.length;
       },
       select(r,i){
-      this.selectRows=r;
-       this.$message({
+        this.selectRows=[]
+        this.selectRows=r
+      },
+      removeAll(){
+            if(this.selectRows.length==0){
+
+              this.innerVisible1=true,
+              this.alertcontent="请选择要删除数据"
+        }
+        if(!this.innerVisible1){
+           this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.selectRows.forEach((item,i)=>{
+               let index=this.tableData.findIndex(r=>r.id==item.id) 
+               this.tableData.splice(index,1);
+        })
+      
+        this.search()
+              this.$message({
            message: '删除成功',
            type: 'success'
           })
-      },
-      removeAll(){
-         for(let item of this.selectRows.values()){
-
-              console.log(item)
-              let i=this.tableData.findIndex(r=>r.id==item.id) 
-               this.tableData.splice(i,1);
-        }
-        this.search()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+}
+      
       },
       remove(row)
       { 
-
-        console.log(row.id)
+        
+          this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+    
         let i= this.tableData.findIndex(r=>r.id==row.id)
         console.log(i);
         this.tableData.splice(i,1);
         this.search()
+              this.$message({
+           message: '删除成功',
+           type: 'success'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+       
       },
       cancelEdit(row){
       row.edit=false
@@ -316,67 +308,48 @@
       },
 
      Save(){  
-           if(!this.obj.name&&!this.innerVisible){
-                this.alertcontent="姓名不能为空"; 
-                this.innerVisible=true
-            } 
-            
-           if(!this.obj.userName&&!this.innerVisible){
-                this.alertcontent="登录名不能为空";
-                this.innerVisible=true
-            }
-            
-            if(!this.obj.password&&!this.innerVisible){
-                this.alertcontent="密码不能为空"; 
-                this.innerVisible=true
-            }
-            
-           if(this.obj.password!=this.obj.repassword&&!this.innerVisible){
+
+         this.$refs["ruleForm"].validate((valid) => {
+          if (valid) { 
+             if(this.obj.password!=this.obj.repassword&&!this.innerVisible){
                 this.alertcontent="密码和确认密码不一致"; 
                 this.innerVisible=true
             }
               
-            
-            let l=(this.tableData.filter(p=>p.userName==this.obj.userName).length>0)
-           
-           if(l&&!this.innerVisible){
-                this.alertcontent="用户名已经存在";
-                this.innerVisible=true
-            }
-
-            let ck=false;
-            Object.values(this.cs).forEach((x,y)=>{
-             if(x){
-                 ck=true
-               }
-            });
-       
-           if(!ck&&!this.innerVisible){
-                this.alertcontent="请选择处室";
-                this.innerVisible=true
-            }  
-            
             if(!this.innerVisible){
-             let css=[];
-             for (let [k, v] of Object.entries(this.cs)) {
-               if(v){
-                 css.push(this.cs1[k])
-                 }
-             }
-             console.log(this.tableData)
+         
+         
              let id= this.tableData.length+1; 
-             this.tableData.unshift({id,name:this.obj.name,userName:this.obj.userName,officeName:css,pwd:this.obj.password,creatorName:"admin",creatorTime: new Date().format("yyyy-MM-dd hh:mm:ss"),edit:false})
+             this.tableData.unshift({id,name:this.obj.name,userName:this.obj.userName,officeName:this.obj.officeName,pwd:this.obj.password,creatorName:"admin",creatorTime: new Date().format("yyyy-MM-dd hh:mm:ss"),edit:false})
             
-             Object.keys(this.obj).forEach((x,i)=>{
-                  this.obj[x]=''
-             });
-
-             Object.keys(this.cs).forEach((x,i)=>{
-                  this.cs[x]=false
-             });
-             this.search()
+            
+           
+                  this.$refs["ruleForm"].resetFields();
+              this.$message({
+                 message: '保存成功',
+                 type: 'success'
+               })
+                 this.search()
             this.dialogFormVisible=false; 
             }
+      
+         
+               
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      
+            
+         
+            
+          
+          
+         
+        
+            
+          
       },
       handleSizeChange(val) {  
            this.pageSize1=val;
@@ -410,11 +383,12 @@
      },
     data() {
       return {
+
         innerVisible1:false,
         alertcontent:'',
         sUserName:'',
         total:400,
-        pageSize1:5,
+        pageSize1:10,
         selectRows:[],
         cs:{
           bgs:false,
@@ -473,6 +447,25 @@
            repassword:'',
            officeName:[]
           },
+            rules: {
+          name: [
+            { required: true, message: '请输入姓名', trigger: 'blur' }
+          
+          ],
+          userName: [
+            { required: true, message: '请输入登录名', trigger: 'blur' }
+          ],
+          password: [
+           { required: true, message: '请输入密码', trigger: 'blur' }
+          ],
+          repassword: [
+          { required: true, message: '请输入确认密码', trigger: 'blur' }
+          ],
+          officeName: [
+            { type: 'array', required: true, message: '请至少选择一个负责处室', trigger: 'change' }
+          ]
+         
+        },
         currentPage: 1,
         dialogFormVisible:false,
         showData:[],
@@ -548,7 +541,6 @@ width: 60px;
 
 }
 
-
 th.is-leaf {
   
     background: inherit;
@@ -557,6 +549,14 @@ th.is-leaf {
     border-width: 0px;
     border-style: solid;
     border-color: rgba(223, 223, 223, 1);
+}
+
+.el-checkbox-group label{
+    width: 170px
+  }
+.el-checkbox+.el-checkbox {
+    margin-left: 0px; 
+    width: 170px
 }
 </style>
 

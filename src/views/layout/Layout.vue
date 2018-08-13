@@ -5,9 +5,16 @@
 				{{collapsed?'':sysName}}
 			</el-col>
 		    <el-col :span="14" > 
-				<span  style="float:right;margin-right:15px;padding-left:5px;">{{sysUserName}}</span> 
-				<el-dropdown trigger="hover" style="float:right;margin-right:10px">
-				    <span class="el-dropdown-link userinfo-inner"><img :src="sy"  style="width:45px;height:45px;;border-radius: 30px;margin-top:5px;"/> </span>
+				<span  style="float:right;margin-right:15px;padding-left:5px;">{{sysUserName}}</span>
+				
+				<el-dropdown style="float:right;margin-right:10px;height:50px" > 
+				
+			
+
+					<span class="el-dropdown-link userinfo-innner">
+	<img :src="sy"  style="width:40px;height:40px;;border-radius: 30px;margin-top:5px;cursor:pointer"/>
+ </span>
+				
 					<el-dropdown-menu slot="dropdown">
 					    <el-dropdown-item>设置</el-dropdown-item>
 						<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
@@ -25,7 +32,7 @@
 						<div> 
 							<template> 
 								<div>
-									<el-row :gutter="20">
+									<el-row :gutter="20" style="   margin-bottom: 10px">
 									  <el-col :span="24" class="grid-content bgpurple1">  
 									   <Breadcrumb></Breadcrumb>
 									  </el-col>
@@ -52,10 +59,12 @@
      import Breadcrumb from '@/components/Breadcrumb'
 	 import { Sidebar } from './components' 
 	 import Hamburger from '@/components/Hamburger' 
+
 	 import sy from '@/assets/404_images/sy.jpg'
 	  export default {
 		data() {
 			return {
+		
 				sy,
 				sysName:'科研计划管理平台',
 				collapsed:false,
@@ -109,6 +118,7 @@
 			 },
 			 
 			 computed: {
+		
                ...mapGetters([
 							'sidebar',
 							'name'
@@ -127,7 +137,7 @@
 	@import '~scss_vars'; 
 
     @import "src/styles/mixin.scss";
-	
+
   .bgpurple1 {
     background: rgba(245, 245, 245, 1);
   }
